@@ -13,6 +13,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: BlocProvider(create: (context) => CryptoBloc()..add(LoadCryptoEvent()), child: CryptoView(),),);
+    final ThemeData theme = ThemeData();
+    return MaterialApp(
+      theme: Theme.of(context).copyWith(colorScheme: theme.colorScheme.copyWith(primary: Colors.black54, secondary: Colors.black87)),
+      home: BlocProvider(
+        create: (context) => CryptoBloc()..add(LoadCryptoEvent()),
+        child: CryptoView(),
+      ),
+    );
   }
 }
