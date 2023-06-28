@@ -1,4 +1,5 @@
 import 'package:cryptonotifier/bloc/crypto_bloc.dart';
+import 'package:cryptonotifier/bloc/crypto_event.dart';
 import 'package:cryptonotifier/bloc/crypto_state.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
@@ -20,52 +21,56 @@ class CryptoView extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else if (state is CryptosLoadedState) {
-            return Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-              child: DataTable2(
-                  columnSpacing: 10,
-                  horizontalMargin: 10,
-                  minWidth: 298,
-                  columns: const [
-                    DataColumn2(
-                      label: Text("#"),
-                      size: ColumnSize.S,
-                    ),
-                    DataColumn2(
-                      label: Text("Name"),
-                      size: ColumnSize.L,
-                    ),
-                    DataColumn2(
-                      label: Text("Price (USD)"),
-                      size: ColumnSize.L,
-                      numeric: true,
-                    ),
-                    DataColumn2(
-                      label: Text("Alert"),
-                      size: ColumnSize.S,
-                      numeric: true,
-                    ),
-                  ],
-                  rows: List<DataRow>.generate(
-                      state.cryptos.length,
-                      (index) => DataRow(cells: [
-                            DataCell(Text((index + 1).toString())),
-                            DataCell(
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Image.network(
-                                    state.cryptos[index].img,
-                                    height: 32,
-                                  ),
-                                  const Padding(padding: EdgeInsets.all(3)),
-                                  Text(state.cryptos[index].symbol),
-                                ],
+            return RefreshIndicator(
+              onRefresh: () async =>
+                BlocProvider.of<CryptoBloc>(context).add(LoadCryptoEvent()),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                child: DataTable2(
+                    columnSpacing: 10,
+                    horizontalMargin: 10,
+                    minWidth: 298,
+                    columns: const [
+                      DataColumn2(
+                        label: Text("#"),
+                        size: ColumnSize.S,
+                      ),
+                      DataColumn2(
+                        label: Text("Name"),
+                        size: ColumnSize.L,
+                      ),
+                      DataColumn2(
+                        label: Text("Price (USD)"),
+                        size: ColumnSize.L,
+                        numeric: true,
+                      ),
+                      DataColumn2(
+                        label: Text("Alert"),
+                        size: ColumnSize.S,
+                        numeric: true,
+                      ),
+                    ],
+                    rows: List<DataRow>.generate(
+                        state.cryptos.length,
+                        (index) => DataRow(cells: [
+                              DataCell(Text((index + 1).toString())),
+                              DataCell(
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Image.network(
+                                      state.cryptos[index].img,
+                                      height: 32,
+                                    ),
+                                    const Padding(padding: EdgeInsets.all(3)),
+                                    Text(state.cryptos[index].symbol),
+                                  ],
+                                ),
                               ),
-                            ),
-                            DataCell(Text(state.cryptos[index].price)),
-                            DataCell(Icon(state.cryptos[index].alarms.isEmpty ? Icons.alarm_off : Icons.alarm_on)),
-                          ]))),
+                              DataCell(Text(state.cryptos[index].price)),
+                              DataCell(Icon(state.cryptos[index].alarms.isEmpty ? Icons.alarm_off : Icons.alarm_on)),
+                            ]))),
+              ),
             );
           } else if (state is CryptoLoadingError) {
             return Center(
