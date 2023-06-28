@@ -4,7 +4,9 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+
 class CryptoView extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +26,6 @@ class CryptoView extends StatelessWidget {
                   columnSpacing: 10,
                   horizontalMargin: 10,
                   minWidth: 298,
-                  
                   columns: const [
                     DataColumn2(
                       label: Text("#"),
@@ -48,7 +49,7 @@ class CryptoView extends StatelessWidget {
                   rows: List<DataRow>.generate(
                       state.cryptos.length,
                       (index) => DataRow(cells: [
-                            DataCell(Text((index+1).toString())),
+                            DataCell(Text((index + 1).toString())),
                             DataCell(
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -63,7 +64,7 @@ class CryptoView extends StatelessWidget {
                               ),
                             ),
                             DataCell(Text(state.cryptos[index].price)),
-                            const DataCell(Icon(Icons.alarm_off)),
+                            DataCell(Icon(state.cryptos[index].alarms.isEmpty ? Icons.alarm_off : Icons.alarm_on)),
                           ]))),
             );
           } else if (state is CryptoLoadingError) {
