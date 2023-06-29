@@ -1,4 +1,4 @@
-import '../models/crypto.dart';
+import '../../models/crypto.dart';
 
 abstract class CryptoState {}
 

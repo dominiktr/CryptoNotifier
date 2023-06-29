@@ -1,10 +1,10 @@
-import 'package:cryptonotifier/bloc/crypto_event.dart';
-import 'package:cryptonotifier/bloc/crypto_state.dart';
+import 'package:cryptonotifier/bloc/cryptos/crypto_event.dart';
+import 'package:cryptonotifier/bloc/cryptos/crypto_state.dart';
 import 'package:cryptonotifier/repos/crypto_repo.dart';
 import 'package:cryptonotifier/repos/preferences_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../models/crypto.dart';
+import '../../models/crypto.dart';
 
 class CryptoBloc extends Bloc<CryptoEvent, CryptoState> {
   final cryptoRepo = CryptoRepository();
