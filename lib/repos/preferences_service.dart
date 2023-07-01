@@ -12,9 +12,28 @@ class PreferencesService {
 
   Future<List<Alarm>> getAlarm(String crypto_symbol) async {
     final preferences = await SharedPreferences.getInstance();
-    final List<String>? list = preferences.getStringList(crypto_symbol);
-    if (list == null) return [];
-    final returnList = list.map((e) => Alarm(crypto_symbol: crypto_symbol, price_target: int.parse(e))).toList();
+    final List<String>? targetPriceList = preferences.getStringList(crypto_symbol);
+    final List<String>? highList = preferences.getStringList(crypto_symbol+"_high");
+    final List<String>? activeList = preferences.getStringList(crypto_symbol+"_active");
+    if (targetPriceList == null) return [];
+    List<Alarm> returnList = [];
+    
+    for (var i = 0; i < targetPriceList.length; i++) {
+      returnList.add(Alarm(crypto_symbol: crypto_symbol, price_target: double.parse(targetPriceList[i]), high: highList![i].toBoolean(), active: activeList![i].toBoolean()));
+    }
     return returnList;
+  }
+
+  
+}
+
+extension on String {
+  bool toBoolean() {
+    print(this);
+    return (this.toLowerCase() == "true" || this.toLowerCase() == "1")
+        ? true
+        : (this.toLowerCase() == "false" || this.toLowerCase() == "0"
+            ? false
+            : throw Exception("Parse error"));
   }
 }

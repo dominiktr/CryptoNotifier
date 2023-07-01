@@ -1,3 +1,4 @@
+import 'package:cryptonotifier/bloc/navigation/nav_cubit.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +21,7 @@ class CryptoView extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: <Widget>[
-             Text(
+              Text(
                 'CryptoNotifier',
                 style: TextStyle(
                   color: _colorScheme.font,
@@ -114,9 +115,14 @@ class CryptoView extends StatelessWidget {
                                                     const Padding(
                                                         padding:
                                                             EdgeInsets.all(3)),
-                                                    Text(state
-                                                        .cryptos[index].symbol, style: TextStyle(
-                  color: _colorScheme.font,),),
+                                                    Text(
+                                                      state.cryptos[index]
+                                                          .symbol,
+                                                      style: TextStyle(
+                                                        color:
+                                                            _colorScheme.font,
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
                                               ),
@@ -127,10 +133,12 @@ class CryptoView extends StatelessWidget {
                                                 ),
                                               )),
                                               DataCell(
-                                                Icon(state.cryptos[index].alarms
-                                                        .isEmpty
-                                                    ? Icons.alarm_off
-                                                    : Icons.alarm_on, color: _colorScheme.font),
+                                                Icon(
+                                                    state.cryptos[index].alarms
+                                                            .isEmpty
+                                                        ? Icons.alarm_off
+                                                        : Icons.alarm_on,
+                                                    color: _colorScheme.font),
                                                 onTap: () => _showEditAlarm(
                                                     context,
                                                     state.cryptos[index]),
@@ -159,5 +167,7 @@ class CryptoView extends StatelessWidget {
     );
   }
 
-  void _showEditAlarm(BuildContext context, Crypto crypto) {}
+  void _showEditAlarm(BuildContext context, Crypto crypto) {
+    BlocProvider.of<NavCubit>(context).showAlarmEditView(crypto);
+  }
 }

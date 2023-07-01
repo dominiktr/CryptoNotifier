@@ -4,14 +4,31 @@ abstract class _ColorScheme {
   final Color bg1;
   final Color bg2;
   final Color font;
+  final Color button;
 
-  _ColorScheme({required this.bg1, required this.bg2, required this.font});
+  _ColorScheme(
+      {required this.bg1,
+      required this.bg2,
+      required this.font,
+      required this.button});
 }
 
-class ColorSchemeDark extends _ColorScheme{
-  ColorSchemeDark() : super(bg1: Colors.black, bg2: Colors.white12, font: Colors.white);
+class ColorSchemeDark extends _ColorScheme {
+  ColorSchemeDark()
+      : super(
+          bg1: Colors.black,
+          bg2: Color.fromARGB(255, 31, 31, 31),
+          font: Colors.white,
+          button: Color.fromARGB(255, 31, 31, 31),
+        );
 }
 
-class ColorSchemeLight extends _ColorScheme{
-  ColorSchemeLight() : super(bg1: Colors.white, bg2: Colors.white, font: Colors.black);
+class ColorSchemeLight extends _ColorScheme {
+  ColorSchemeLight()
+      : super(
+          bg1: Colors.white,
+          bg2: Colors.white,
+          font: Colors.black,
+          button: Color.fromARGB(255, 31, 31, 31),
+        );
 }
