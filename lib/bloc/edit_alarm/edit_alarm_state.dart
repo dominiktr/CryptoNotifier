@@ -11,6 +11,8 @@ class AlarmEditView extends AlarmState {
 
 class AlarmSavingState extends AlarmState {}
 
-class AlarmSavedState extends AlarmState {}
+class AlarmSavingErrorState extends AlarmState {
+  final String error;
 
-class AlarmSavingErrorState extends AlarmState {}
+  AlarmSavingErrorState({required this.error});
+}

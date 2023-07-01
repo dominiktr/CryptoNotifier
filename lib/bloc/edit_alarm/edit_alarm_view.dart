@@ -1,4 +1,5 @@
 import 'package:cryptonotifier/bloc/edit_alarm/edit_alarm_bloc.dart';
+import 'package:cryptonotifier/bloc/edit_alarm/edit_alarm_event.dart';
 import 'package:cryptonotifier/bloc/edit_alarm/edit_alarm_state.dart';
 import 'package:cryptonotifier/bloc/navigation/nav_cubit.dart';
 import 'package:cryptonotifier/models/alarm.dart';
@@ -16,7 +17,8 @@ class AlarmView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: _AlarmViewStateful());
+    return const MaterialApp(
+        debugShowCheckedModeBanner: false, home: _AlarmViewStateful());
   }
 }
 
@@ -36,7 +38,26 @@ class _AlarmViewState extends State<_AlarmViewStateful> {
   Widget build(BuildContext context) {
     return BlocBuilder<EditAlarmBloc, AlarmState>(
       builder: (context, state) {
-        if (state is AlarmEditView) {
+        if (state is AlarmSavingState) {
+          return const Scaffold(
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [CircularProgressIndicator()],
+            ),
+          );
+        } else if (state is AlarmSavingErrorState) {
+          return Scaffold(
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text("An error occurred, while saving your settings."),
+                Text(state.error)
+              ],
+            ),
+          );
+        } else if (state is AlarmEditView) {
           alarms = state.crypto.alarms;
           return Scaffold(
             backgroundColor: _colorScheme.bg1,
@@ -133,6 +154,7 @@ class _AlarmViewState extends State<_AlarmViewStateful> {
                                             setState(() {
                                               alarms[index].active = value;
                                             });
+                                            saveToSharedPreferences();
                                           },
                                         )
                                       ],
@@ -292,7 +314,7 @@ class _AlarmViewState extends State<_AlarmViewStateful> {
                                 });
                               },
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 24,
                             ),
                           ],
@@ -358,5 +380,7 @@ class _AlarmViewState extends State<_AlarmViewStateful> {
     setState(() {});
   }
 
-  void saveToSharedPreferences() {}
+  void saveToSharedPreferences() {
+    BlocProvider.of<EditAlarmBloc>(context).add(SaveAlarmEvent());
+  }
 }

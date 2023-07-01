@@ -2,12 +2,11 @@ import 'package:cryptonotifier/models/alarm.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferencesService {
-  Future save(Alarm alarm) async {
+  Future save(List<Alarm> alarms) async {
     final preferences = await SharedPreferences.getInstance();
-    final current = preferences.getStringList(alarm.crypto_symbol);
-    List<String> list = [alarm.price_target as String];
-    if (current != null) list.addAll(current);
-    await preferences.setStringList(alarm.crypto_symbol, list);
+    await preferences.setStringList(alarms[0].crypto_symbol, alarms.map((e) => e.price_target.toString()).toList());
+    await preferences.setStringList(alarms[0].crypto_symbol+"_high", alarms.map((e) => e.high.toString()).toList());
+    await preferences.setStringList(alarms[0].crypto_symbol+"_active", alarms.map((e) => e.active.toString()).toList());
   }
 
   Future<List<Alarm>> getAlarm(String crypto_symbol) async {
