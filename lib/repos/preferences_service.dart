@@ -5,15 +5,15 @@ class PreferencesService {
   Future save(List<Alarm> alarms) async {
     final preferences = await SharedPreferences.getInstance();
     await preferences.setStringList(alarms[0].crypto_symbol, alarms.map((e) => e.price_target.toString()).toList());
-    await preferences.setStringList(alarms[0].crypto_symbol+"_high", alarms.map((e) => e.high.toString()).toList());
-    await preferences.setStringList(alarms[0].crypto_symbol+"_active", alarms.map((e) => e.active.toString()).toList());
+    await preferences.setStringList("${alarms[0].crypto_symbol}_high", alarms.map((e) => e.high.toString()).toList());
+    await preferences.setStringList("${alarms[0].crypto_symbol}_active", alarms.map((e) => e.active.toString()).toList());
   }
 
   Future<List<Alarm>> getAlarm(String crypto_symbol) async {
     final preferences = await SharedPreferences.getInstance();
     final List<String>? targetPriceList = preferences.getStringList(crypto_symbol);
-    final List<String>? highList = preferences.getStringList(crypto_symbol+"_high");
-    final List<String>? activeList = preferences.getStringList(crypto_symbol+"_active");
+    final List<String>? highList = preferences.getStringList("${crypto_symbol}_high");
+    final List<String>? activeList = preferences.getStringList("${crypto_symbol}_active");
     if (targetPriceList == null) return [];
     List<Alarm> returnList = [];
     

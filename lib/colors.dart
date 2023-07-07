@@ -17,9 +17,9 @@ class ColorSchemeDark extends _ColorScheme {
   ColorSchemeDark()
       : super(
           bg1: Colors.black,
-          bg2: Color.fromARGB(255, 31, 31, 31),
+          bg2: const Color.fromARGB(255, 31, 31, 31),
           font: Colors.white,
-          button: Color.fromARGB(255, 31, 31, 31),
+          button: const Color.fromARGB(255, 31, 31, 31),
         );
 }
 
@@ -29,6 +29,6 @@ class ColorSchemeLight extends _ColorScheme {
           bg1: Colors.white,
           bg2: Colors.white,
           font: Colors.black,
-          button: Color.fromARGB(255, 31, 31, 31),
+          button: const Color.fromARGB(255, 31, 31, 31),
         );
 }

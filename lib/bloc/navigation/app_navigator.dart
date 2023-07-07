@@ -14,7 +14,7 @@ class AppNavigator extends StatelessWidget {
         return Navigator(
           pages: [
             MaterialPage(child: CryptoView()),
-            if (state != null) MaterialPage(child: BlocProvider<EditAlarmBloc>(create: (context) => EditAlarmBloc(crypto: state), child: AlarmView())),
+            if (state != null) MaterialPage(child: BlocProvider<EditAlarmBloc>(create: (context) => EditAlarmBloc(crypto: state), child: const AlarmView())),
           ],
           onPopPage: (route, result) {
             BlocProvider.of<NavCubit>(context).popToCryptoView();
