@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cryptonotifier/bloc/navigation/nav_cubit.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +37,8 @@ class CryptoView extends StatelessWidget {
                   child: BlocBuilder<CryptoBloc, CryptoState>(
                     builder: (context, state) {
                       if (state is CryptosLoadingState) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
+                        return Center(
+                          child: CircularProgressIndicator(color: _colorScheme.font),
                         );
                       } else if (state is CryptosLoadedState) {
                         return RefreshIndicator(
@@ -108,9 +109,12 @@ class CryptoView extends StatelessWidget {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.start,
                                                   children: [
-                                                    Image.network(
-                                                      state.cryptos[index].img,
+                                                    CachedNetworkImage(
+                                                      imageUrl: state.cryptos[index].img,
                                                       height: 32,
+                                                      progressIndicatorBuilder: (context, url, downloadProgress) => 
+                                                              CircularProgressIndicator(value: downloadProgress.progress, color: _colorScheme.font,),
+                                                      errorWidget: (context, url, error) => Icon(Icons.error, color: _colorScheme.font,),
                                                     ),
                                                     const Padding(
                                                         padding:
