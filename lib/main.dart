@@ -1,5 +1,7 @@
 import 'package:cryptonotifier/bloc/navigation/app_navigator.dart';
 import 'package:cryptonotifier/bloc/navigation/nav_cubit.dart';
+import 'package:cryptonotifier/repos/background_service.dart';
+import 'package:cryptonotifier/repos/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,6 +10,8 @@ import 'bloc/cryptos/crypto_event.dart';
 
 void main() {
   runApp(const MyApp());
+  NotificationService().initNotifications(channelKey: 'CryptoPriceCK', channelName: 'CryptoPriceAlert', channelDescription: 'CryptoPriceAlert');
+  registerBackgroundTask();
 }
 
 class MyApp extends StatelessWidget {

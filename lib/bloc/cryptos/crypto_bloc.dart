@@ -1,6 +1,7 @@
 import 'package:cryptonotifier/bloc/cryptos/crypto_event.dart';
 import 'package:cryptonotifier/bloc/cryptos/crypto_state.dart';
 import 'package:cryptonotifier/repos/crypto_repo.dart';
+import 'package:cryptonotifier/repos/load_cryptos_service.dart';
 import 'package:cryptonotifier/repos/preferences_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,11 +15,7 @@ class CryptoBloc extends Bloc<CryptoEvent, CryptoState> {
     on<LoadCryptoEvent>((event, emit) async {
       try {
         emit(CryptosLoadingState());
-        List<Crypto> cryptos = (await cryptoRepo.getCryptos()).cast<Crypto>();
-        for (var i = 0; i < cryptos.length; i++) {
-          final alarms = await prefService.getAlarm(cryptos[i].symbol);
-          cryptos[i].alarms = alarms;
-        }
+        List<Crypto> cryptos = await LoadCryptosService().loadCryptos();
         emit(CryptosLoadedState(cryptos: cryptos));
       } catch (e) {
         emit(CryptoLoadingError(error: e.toString()));
